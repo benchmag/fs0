@@ -33,7 +33,7 @@ sequenceDiagram
 
     deactivate browser
 
-    browser->> Sends a 302 PUT request (url redirect) which reloads the css, js and json and then 'pushes' the additional data onto the end of the notes array
+    browser->> Sends a 302 PUT request (url redirect) which reloads the css js and json and then 'pushes' the additional data onto the end of the notes array
     activate server
     server-->>browser: [[Original css, js, josn} + {PUT request payload tacked onto the json}]
     deactivate server
