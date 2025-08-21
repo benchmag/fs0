@@ -1,38 +1,60 @@
-```mermaid
+'''mermaid
 sequenceDiagram
-    participant browser
-    participant server
+    participant Browser
+    participant Server
 
-    browser->>server: GET https://studies.cs.helsinki.fi/exampleapp/notes
-    activate server
-    server-->>browser: HTML document
-    deactivate server
+    Browser->>Server: GET /exampleapp/notes
+    activate Server
+    Server-->>Browser: HTML document
+    deactivate Server
 
-    browser->>server: GET https://studies.cs.helsinki.fi/exampleapp/main.css
-    activate server
-    server-->>browser: the css file
-    deactivate server
+    Browser->>Server: GET /exampleapp/main.css
+    activate Server
+    Server-->>Browser: CSS file
+    deactivate Server
 
-    browser->>server: GET https://studies.cs.helsinki.fi/exampleapp/main.js
-    activate server
-    server-->>browser: the JavaScript file
-    deactivate server
+    Browser->>Server: GET /exampleapp/main.js
+    activate Server
+    Server-->>Browser: JavaScript file
+    deactivate Server
 
-    Note right of browser: The browser starts executing the JavaScript code that fetches the JSON from the server
+    Note right of Browser: Browser starts executing JavaScript<br>and fetches JSON data from the server
 
-    browser->>server: GET https://studies.cs.helsinki.fi/exampleapp/data.json
-    activate server
-    server-->>browser: [{"content": "", "date": "2025-08-20T19:49:17.003Z", ...}]
-    deactivate server
+    Browser->>Server: GET /exampleapp/data.json
+    activate Server
+    Server-->>Browser: JSON data<br>[{"content": "...", "date": "2025-08-20T19:49:17.003Z"}, ...]
+    deactivate Server
 
-    Note right of browser: The browser executes the callback function that renders the notes
+    Note right of Browser: JavaScript callback renders the notes on the page
 
-    Note left of browser: Form is submited, /new_note post request triggers 'onreadystatechange()' event listener
+    Note left of Browser: User submits the form
 
-    browser->> Sends a 302 PUT request (url redirect) which reloads the css js and json and then 'pushes' the additional data onto the end of the notes array
-    activate server
-    server-->>browser: [[Original css, js, josn} + {PUT request payload tacked onto the json}]
-    deactivate server
+    Browser->>Server: POST /exampleapp/new_note<br>with form data
+    activate Server
+    Server-->>Browser: 302 Redirect
+    deactivate Server
 
-    Note right of browser: The browser executes the callback function that renders the notes
-```
+    Note right of Browser: Browser follows redirect<br>and reloads the page
+
+    Browser->>Server: GET /exampleapp/notes
+    activate Server
+    Server-->>Browser: HTML document
+    deactivate Server
+
+    Browser->>Server: GET /exampleapp/main.css
+    activate Server
+    Server-->>Browser: CSS file
+    deactivate Server
+
+    Browser->>Server: GET /exampleapp/main.js
+    activate Server
+    Server-->>Browser: JavaScript file
+    deactivate Server
+
+    Browser->>Server: GET /exampleapp/data.json
+    activate Server
+    Server-->>Browser: Updated JSON data<br>(includes new note)
+    deactivate Server
+
+    Note right of Browser: JavaScript callback renders updated notes
+'''
