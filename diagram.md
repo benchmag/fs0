@@ -25,20 +25,14 @@ sequenceDiagram
     server-->>browser: [{"content": "", "date": "2025-08-20T19:49:17.003Z", ...}]
     deactivate server
 
-    activate browser
-
     Note right of browser: The browser executes the callback function that renders the notes
 
     Note left of browser: Form is submited, /new_note post request triggers 'onreadystatechange()' event listener
-
-    deactivate browser
 
     browser->> Sends a 302 PUT request (url redirect) which reloads the css js and json and then 'pushes' the additional data onto the end of the notes array
     activate server
     server-->>browser: [[Original css, js, josn} + {PUT request payload tacked onto the json}]
     deactivate server
 
-    activate browser
     Note right of browser: The browser executes the callback function that renders the notes
-    deactivate browser
 ```
