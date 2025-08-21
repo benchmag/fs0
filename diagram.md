@@ -1,4 +1,4 @@
-'''mermaid
+```mermaid
 sequenceDiagram
     participant Browser
     participant Server
@@ -57,4 +57,4 @@ sequenceDiagram
     deactivate Server
 
     Note right of Browser: JavaScript callback renders updated notes
-'''
+```
