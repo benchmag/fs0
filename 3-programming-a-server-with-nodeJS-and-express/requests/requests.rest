@@ -4,18 +4,27 @@ POST http://localhost:3001/api/notes/ HTTP/1.1
 content-type: application/json
 
 {
-    "name": "sample",
-    "time": "Wed, 21 Oct 2015 18:27:50 GMT",
-    "content": "This is a sample note"
+    "content": "many same",
+    "important": true
 }
 ###
-DELETE http://localhost:3001/api/notes/1
+PUT http://localhost:3001/api/notes/3 HTTP/1.1
+content-type: application/json
+
+{
+    "content": "updated note content",
+    "important": false
+}
+###
+GET http://localhost:3001/api/notes/10
 ###
 GET http://localhost:3001/info
 ###
 DELETE  http://localhost:3001/api/persons/2
 ###
 GET http://localhost:3001/api/persons
+###
+GET http://localhost:3001/api/persons/1
 ###
 POST http://localhost:3001/api/persons/ HTTP/1.1
 content-type: application/json

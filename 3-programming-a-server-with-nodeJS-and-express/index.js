@@ -1,9 +1,36 @@
 const express = require('express')
 const app = express()
+const morgan = require('morgan')
+const cors = require('cors')
+
+//MIDDLEWARE
+morgan.token('body', (request, response) => JSON.stringify(request.body))
+app.use(morgan('tiny'))
+app.use(morgan(':body'))
+app.use(morgan(':remote-addr'))
 
 app.use(express.json())
 
+const requestLogger = (request, response, next) => {
+  console.log('IP:', request.ip)
+  //console.log('Path:  ', request.path)
+  //console.log('Body:  ', request.body)
+  //console.log('---')
+  next()
+}
+//app.use(requestLogger)
+
+app.use(cors({ origin: 'http://localhost:5173' }))
+
+const unknownEndpoint = (request, response) => {
+  response.status(404).send({ error: 'unknown endpoint' })
+}
+//app.use(unknownEndpoint)
+
+//HOME ENDPOINT
+
 app.get('/', (request, response) => {
+  response.status(200)
   response.send('<h1>Hello World!</h1>')
 })
 
@@ -35,9 +62,14 @@ app.get('/api/notes/:id', (request, response) => {
   const note = notes.find(note => note.id === id)
 
   if (note) {
+    response.status(200)
     response.json(note)
   } else {
-    response.status(404).end()
+    response.status(404)
+    response.send(
+      `<h1>404 Not Found</h1>
+      <p>Do a proper request</p>`
+    )
   }
 })
 
@@ -74,6 +106,19 @@ app.post('/api/notes', (request, response) => {
 
   response.json(note)
 }) 
+
+app.put('/api/notes/:id', (request, response) => {
+  const id = request.params.id
+  const body = request.body
+  const note = {
+    content: body.content,
+    important: body.important,
+    id: id
+  }
+  notes = notes.map(n => n.id !== id ? n : note)
+
+  response.json(note)
+})
 
 //PERSONS API ENDPOINTS
 let persons = [
@@ -185,8 +230,6 @@ app.get('/info', (request, response) => {
   const phonebookLength = persons.length
   const date = new Date()
 
-  console.log(request)
-
   response.send(
     `<p>Phonebook has info for ${phonebookLength} people</p>
     <p>${date}</p>`
@@ -194,7 +237,7 @@ app.get('/info', (request, response) => {
 })
 
 
-const PORT = 3001
+const PORT = process.env.PORT || 3003
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`)
 })
