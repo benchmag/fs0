@@ -10,6 +10,7 @@ app.use(morgan(':body'))
 app.use(morgan(':remote-addr'))
 
 app.use(express.json())
+app.use(express.static('dist'))
 
 const requestLogger = (request, response, next) => {
   console.log('IP:', request.ip)
@@ -26,6 +27,8 @@ const unknownEndpoint = (request, response) => {
   response.status(404).send({ error: 'unknown endpoint' })
 }
 //app.use(unknownEndpoint)
+
+
 
 //HOME ENDPOINT
 
