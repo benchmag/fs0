@@ -1,4 +1,5 @@
 const express = require('express')
+const path = require('path')
 const app = express()
 const morgan = require('morgan')
 //const cors = require('cors')
@@ -10,8 +11,8 @@ app.use(morgan(':body'))
 app.use(morgan(':remote-addr'))
 
 app.use(express.json())
-app.use(express.static('dist_notes'))
 app.use(express.static('dist_pb'))
+//app.use('/phonebook', express.static(path.join(__dirname, 'dist_pb'), { index: 'index.html' }))
 
 const requestLogger = (request, response, next) => {
   console.log('IP:', request.ip)
@@ -36,6 +37,10 @@ const unknownEndpoint = (request, response) => {
 app.get('/', (request, response) => {
   response.status(200)
   response.send('<h1>Hello World!</h1>')
+})
+
+app.get('/notes', (request, response) => {
+  // Served by express.static middleware above
 })
 
 //NOTES API ENDPOINTS
