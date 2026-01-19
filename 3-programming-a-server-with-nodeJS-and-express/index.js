@@ -10,7 +10,8 @@ app.use(morgan(':body'))
 app.use(morgan(':remote-addr'))
 
 app.use(express.json())
-app.use(express.static('dist'))
+app.use(express.static('dist_notes'))
+app.use(express.static('dist_pb'))
 
 const requestLogger = (request, response, next) => {
   console.log('IP:', request.ip)
