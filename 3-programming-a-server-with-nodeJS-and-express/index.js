@@ -1,7 +1,7 @@
 const express = require('express')
 const app = express()
 const morgan = require('morgan')
-const cors = require('cors')
+//const cors = require('cors')
 
 //MIDDLEWARE
 morgan.token('body', (request, response) => JSON.stringify(request.body))
@@ -21,7 +21,7 @@ const requestLogger = (request, response, next) => {
 }
 //app.use(requestLogger)
 
-app.use(cors({ origin: 'http://localhost:5173' }))
+//app.use(cors({ origin: 'http://localhost:5173' }))
 
 const unknownEndpoint = (request, response) => {
   response.status(404).send({ error: 'unknown endpoint' })
