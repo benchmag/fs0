@@ -11,7 +11,7 @@ app.use(morgan(':body'))
 app.use(morgan(':remote-addr'))
 
 app.use(express.json())
-app.use(express.static('dist/phonebook'))
+app.use(express.static('dist/dist_pb'))
 //app.use('/phonebook', express.static(path.join(__dirname, 'dist_pb'), { index: 'index.html' }))
 
 const requestLogger = (request, response, next) => {
