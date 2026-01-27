@@ -30,6 +30,33 @@ const unknownEndpoint = (request, response) => {
 }
 //app.use(unknownEndpoint)
 
+//MONGOOSE SETUP
+require('dotenv').config()
+const Note = require('./models/note')
+
+// const mongoose = require('mongoose')
+
+// // DO NOT SAVE YOUR PASSWORD TO GITHUB!!
+// const password = process.argv[2]
+// const url = `mongodb+srv://bcheeth94_db_user:${password}@cluster0.dqimbci.mongodb.net/noteApp?retryWrites=true&w=majority&appName=Cluster0`
+
+// mongoose.set('strictQuery',false)
+// mongoose.connect(url, { family: 4 })
+
+// const noteSchema = new mongoose.Schema({
+//   content: String,
+//   important: Boolean,
+// })
+
+// noteSchema.set('toJSON', {
+//   transform: (document, returnedObject) => {
+//     returnedObject.id = returnedObject._id.toString()
+//     delete returnedObject._id
+//     delete returnedObject.__v
+//   }
+// })
+
+// const Note = mongoose.model('Note', noteSchema)
 
 
 //HOME ENDPOINT
@@ -43,24 +70,30 @@ app.get('/notes', (request, response) => {
   // Served by express.static middleware above
 })
 
-//NOTES API ENDPOINTS
-let notes = [
-  {
-    id: "1",
-    content: "HTML is easy",
-    important: true
-  },
-  {
-    id: "2",
-    content: "Browser can execute only JavaScript",
-    important: false
-  },
-  {
-    id: "3",
-    content: "GET and POST are the most important methods of HTTP protocol",
-    important: true
-  }
-]
+app.get('/api/notes', (request, response) => {
+  Note.find({}).then(notes => {
+    response.json(notes)
+  })
+})
+
+// //NOTES API ENDPOINTS
+// let notes = [
+//   {
+//     id: "1",
+//     content: "HTML is easy",
+//     important: true
+//   },
+//   {
+//     id: "2",
+//     content: "Browser can execute only JavaScript",
+//     important: false
+//   },
+//   {
+//     id: "3",
+//     content: "GET and POST are the most important methods of HTTP protocol",
+//     important: true
+//   }
+// ]
 
 app.get('/api/notes', (request, response) => {
   response.json(notes)
