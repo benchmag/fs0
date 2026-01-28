@@ -13,7 +13,7 @@ app.use(morgan(':remote-addr'))
 
 //built-in middleware to parse JSON bodies and serve static files
 app.use(express.json()) //parse JSON request bodies
-app.use(express.static('dist/dist_notes')) //serve static files from the 'dist' directory
+app.use(express.static('dist/notes')) //serve static files from the 'dist' directory
 
 //custom middleware to log request details
 // const requestLogger = (request, response, next) => {
