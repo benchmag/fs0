@@ -10,8 +10,8 @@
     "start": "node index.js",
     "dev": "node --watch index.js",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build:ui_notes": "rm -rf dist_notes && cd ../2-communicating-with-server/notes && npm run build && cp -r dist ../../3-programming-a-server-with-nodeJS-and-express/dist/notes",
-    "build:ui_pb": "rm -rf dist_pb && cd ../2-communicating-with-server/the-phonebook && npm run build && cp -r dist ../../3-programming-a-server-with-nodeJS-and-express/dist/phonebook",
+    "build:ui_notes": "rm -rf dist/notes && cd ../2-communicating-with-server/notes && npm run build && cp -r dist ../../3-programming-a-server-with-nodeJS-and-express/dist/notes",
+    "build:ui_pb": "rm -rf dist/phonebook && cd ../2-communicating-with-server/the-phonebook && npm run build && cp -r dist ../../3-programming-a-server-with-nodeJS-and-express/dist/phonebook",
     "deploy:full": "npm run build:ui_notes && npm run build:ui_pb && git add . && git commit -m uibuild && git push"
   },
   "dependencies": {
