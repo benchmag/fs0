@@ -13,7 +13,7 @@ app.use(morgan(':remote-addr'))
 
 //built-in middleware to parse JSON bodies and serve static files
 app.use(express.json()) //parse JSON request bodies
-app.use(express.static('dist/notes')) //serve static files from the 'dist' directory
+app.use(express.static('dist/phonebook')) //serve static files from the 'dist' directory
 
 //custom middleware to log request details
 // const requestLogger = (request, response, next) => {
@@ -35,7 +35,8 @@ app.use(express.static('dist/notes')) //serve static files from the 'dist' direc
 
 //MONGOOSE SETUP
 require('dotenv').config()
-const Note = require('./models/note')
+//const Note = require('./models/note')
+const Person = require('./models/person')
 
 // const mongoose = require('mongoose')
 
@@ -78,6 +79,33 @@ app.get('/api/notes', (request, response) => {
     response.json(notes)
   })
 })
+
+app.get('/api/persons', (request, response) => {
+  Person.find({}).then(person => {
+    response.json(person)
+  })
+})
+
+app.post('/api/persons', (request, response) => {
+  const body = request.body
+
+  console.log(`Content: ${body.content}`)
+
+  if (!body.content) {
+    return response.status(400).json({ error: 'content missing' })
+  }
+
+  const person = new Person({
+    name: body.name,
+    number: body.number,
+  })
+
+  person.save().then(savedPerson => {
+    response.json(savedPerson)
+  })
+})
+
+  
 
 // //NOTES API ENDPOINTS
 // let notes = [
