@@ -5,29 +5,32 @@ const morgan = require('morgan')
 //const cors = require('cors')
 
 //MIDDLEWARE
+//morgan for logging HTTP requests
 morgan.token('body', (request, response) => JSON.stringify(request.body))
 app.use(morgan('tiny'))
 app.use(morgan(':body'))
 app.use(morgan(':remote-addr'))
 
-app.use(express.json())
-app.use(express.static('dist/dist_pb'))
-//app.use('/phonebook', express.static(path.join(__dirname, 'dist_pb'), { index: 'index.html' }))
+//built-in middleware to parse JSON bodies and serve static files
+app.use(express.json()) //parse JSON request bodies
+app.use(express.static('dist/dist_notes')) //serve static files from the 'dist' directory
 
-const requestLogger = (request, response, next) => {
-  console.log('IP:', request.ip)
-  //console.log('Path:  ', request.path)
-  //console.log('Body:  ', request.body)
-  //console.log('---')
-  next()
-}
-//app.use(requestLogger)
+//custom middleware to log request details
+// const requestLogger = (request, response, next) => {
+//   console.log('IP:', request.ip)
+//   //console.log('Path:  ', request.path)
+//   //console.log('Body:  ', request.body)
+//   //console.log('---')
+//   next()
+// }
+// app.use(requestLogger)
 
 //app.use(cors({ origin: 'http://localhost:5173' }))
 
-const unknownEndpoint = (request, response) => {
-  response.status(404).send({ error: 'unknown endpoint' })
-}
+//custom middleware to handle unknown endpoints
+// const unknownEndpoint = (request, response) => {
+//   response.status(404).send({ error: 'unknown endpoint' })
+// }
 //app.use(unknownEndpoint)
 
 //MONGOOSE SETUP
