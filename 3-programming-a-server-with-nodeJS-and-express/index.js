@@ -86,26 +86,6 @@ app.get('/api/persons', (request, response) => {
   })
 })
 
-app.post('/api/persons', (request, response) => {
-  const body = request.body
-
-  console.log(`Content: ${body.content}`)
-
-  if (!body.content) {
-    return response.status(400).json({ error: 'content missing' })
-  }
-
-  const person = new Person({
-    name: body.name,
-    number: body.number,
-  })
-
-  person.save().then(savedPerson => {
-    response.json(savedPerson)
-  })
-})
-
-  
 
 // //NOTES API ENDPOINTS
 // let notes = [
@@ -217,29 +197,6 @@ app.put('/api/notes/:id', (request, response) => {
 })
 
 //PERSONS API ENDPOINTS
-let persons = [
-    { 
-      "id": "1",
-      "name": "Arto Hellas", 
-      "number": "040-123456"
-    },
-    { 
-      "id": "2",
-      "name": "Ada Lovelace", 
-      "number": "39-44-5323523"
-    },
-    { 
-      "id": "3",
-      "name": "Dan Abramov", 
-      "number": "12-43-234345"
-    },
-    { 
-      "id": "4",
-      "name": "Mary Poppendieck", 
-      "number": "39-23-6423122"
-    }
-]
-
 app.get('/api/persons', (request, response) => {
   console.log(request.ip)
   response.json(persons)
@@ -270,22 +227,14 @@ app.get('/api/persons/:id', (request, response) => {
 
 app.delete('/api/persons/:id', (request, response) => {
   const id = request.params.id
-  const dead_man_walking = persons.find(person => person.id === id)
-  const name = dead_man_walking.name
-  if (dead_man_walking !== undefined) {
-    persons = persons.filter(person => person.id !== id)
-    console.log(`${name}`)
-    response.send(
-      `<h1>Deleted</h1>
-      <p>${name} has been deleted from the phonebook</p>`
-    )
-  } else {
-    response.status(404)
-    response.send(
-      `<h1>404 Not Found</h1>
-      <p>Do a proper request</p>`
-    )
-  }
+
+  Person.findByIdAndDelete(id)
+    .then(() => {
+      response.status(204).end()
+    })
+    .catch(error => {
+      response.status(500).json({ error: 'Failed to delete person' })
+    })
 })
 
 app.post('/api/persons', (request, response) => {
@@ -297,28 +246,31 @@ app.post('/api/persons', (request, response) => {
     })
   }
 
-  const nameExists = persons.find(person => person.name === body.name)
-  if (nameExists) {
-    return response.status(400).json({
-      error: 'name must be unique'
+  //Check for unique name and number
+  Person.findOne({ name: body.name })
+    .then(existingPerson => {
+      if (existingPerson) {
+        return response.status(400).json({
+          error: 'name must be unique'
+        })
+      }
+      Person.findOne({ number: body.number })
+        .then(existingNumber => {
+          if (existingNumber) {
+            return response.status(400).json({
+              error: 'number must be unique'
+            })
+          }
+          const person = new Person({
+            name: body.name,
+            number: body.number,
+          })
+
+          person.save().then(savedPerson => {
+            response.json(savedPerson)
+          })
+        })
     })
-  }
-  const numberExists = persons.find(person => person.number === body.number)
-  if (numberExists) {
-    return response.status(400).json({
-      error: 'number must be unique'
-    })
-  }
-
-  const person = {
-    name: body.name,
-    number: body.number,
-    id: String(Math.floor(Math.random() * 10000))
-  }
-
-  persons = persons.concat(person)
-
-  response.json(person)
 })
 
 //INFO ENDPOINTS
