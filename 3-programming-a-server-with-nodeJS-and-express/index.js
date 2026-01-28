@@ -251,14 +251,16 @@ app.post('/api/persons', (request, response) => {
     .then(existingPerson => {
       if (existingPerson) {
         return response.status(400).json({
-          error: 'name must be unique'
+          error: 'name must be unique',
+          code: 'name-duplicate'
         })
       }
       Person.findOne({ number: body.number })
         .then(existingNumber => {
           if (existingNumber) {
             return response.status(400).json({
-              error: 'number must be unique'
+              error: 'number must be unique',
+              code: 'number-duplicate'
             })
           }
           const person = new Person({
