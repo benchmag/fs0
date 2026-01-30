@@ -28,10 +28,18 @@ POST http://localhost:3001/api/persons/ HTTP/1.1
 content-type: application/json
 
 {
-    "name": "Jdpd0fsddddkdddkk sd",
-    "number": "1-6s4ss94k4sddd-dl392io3kdl7890"
+    "name": "Ben",
+    "number": "1"
 }
 ###
-GET http://localhost:3001/api/persons/invalidid
+GET http://localhost:3001/api/persons/697bf295588c10b93949683e
 ###
-DELETE http://localhost:3001/api/persons/697ab5c18905426a2ef33428
+DELETE http://localhost:3001/api/persons/697
+###
+PUT http://localhost:3001/api/persons/697bf9cfd5cb1cda5ede69f4 HTTP/1.1
+content-type: application/json
+
+{
+    "name": "Bomm m",
+    "number": "521qq"
+}

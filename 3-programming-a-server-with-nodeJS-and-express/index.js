@@ -12,7 +12,7 @@ app.use(morgan(':remote-addr'))
 
 //built-in middleware to parse JSON bodies and serve static files
 app.use(express.json()) //parse JSON request bodies
-app.use(express.static('dist/phonebook')) //serve static files from the 'dist' directory
+app.use(express.static('dist/notes')) //serve static files from the 'dist' directory
 
 //custom middleware to log request details
 const requestLogger = (request, response, next) => {
@@ -26,8 +26,8 @@ const requestLogger = (request, response, next) => {
 
 //MONGOOSE SETUP
 require('dotenv').config()
-//const Note = require('./models/note')
-const Person = require('./models/person')
+const Note = require('./models/note')
+// const Person = require('./models/person')
 
 
 //HOME ENDPOINT
@@ -66,7 +66,7 @@ app.get('/api/notes/:id', (request, response, next) => {
 })
 
 //POST
-app.post('/api/notes', (request, response) => {
+app.post('/api/notes', (request, response, next) => {
   const body = request.body
 
   if (!body.content) {
@@ -78,9 +78,11 @@ app.post('/api/notes', (request, response) => {
     important: body.important || false,
   })
 
-  note.save().then(savedNote => {
-    response.json(savedNote)
-  })
+  note.save()
+    .then(savedNote => {
+      response.json(savedNote)
+    })
+    .catch(error => next(error))
 })
 
 //PUT
@@ -92,9 +94,14 @@ app.put('/api/notes/:id', (request, response) => {
     important: body.important,
     id: id
   }
-  notes = notes.map(n => n.id !== id ? n : note)
-
-  response.json(note)
+  Note.findByIdAndUpdate(request.params.id, note, { new: true })
+    .then(updatedNote => {
+      response.json(updatedNote)
+    })
+    .catch(error => {
+      console.log(error)
+      next(error)
+    })
 })
 
 //PATCH
@@ -137,7 +144,7 @@ app.get('/api/persons/:id', (request, response) => {
   })
 
 //POST
-app.post('/api/persons', (request, response) => {
+app.post('/api/persons', (request, response, next) => {
   const body = request.body
 
   if (!body.name || !body.number) {
@@ -151,9 +158,11 @@ app.post('/api/persons', (request, response) => {
     number: body.number
   })
 
-  person.save().then(savedPerson => {
-    response.json(savedPerson)
-  })
+  person.save()
+    .then(savedPerson => {
+      response.json(savedPerson)
+    })
+    .catch(error => next(error))
 })
 
 //PUT
@@ -205,7 +214,9 @@ const errorHandler = (error, request, response, next) => {
 
   if (error.name === 'CastError') {
     return response.status(400).send({ error: 'malformatted id' })
-  } 
+  } else if (error.name === 'ValidationError') {
+    return response.status(400).json({ error: error.message })
+  }
   next(error)
 }
 // this has to be the last loaded middleware, also all the routes should be registered before this!
