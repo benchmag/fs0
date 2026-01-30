@@ -1,11 +1,13 @@
 const mongoose = require('mongoose')
+const dotenv = require('dotenv')
+dotenv.config()
 
 //console.log('process.argv:', process.argv.length)
 
 if (process.argv.length === 3) {
   const password = process.argv[2]
   const url = `mongodb+srv://bcheeth94_db_user:${password}@cluster0.dqimbci.mongodb.net/phoneBook?retryWrites=true&w=majority&appName=Cluster0`
-   
+
   //console.log('connecting to', url)
   mongoose.set('strictQuery',false)
   mongoose.connect(url, { family: 4 })
@@ -15,12 +17,12 @@ if (process.argv.length === 3) {
     number: String,
   })
   const Person = mongoose.model('Person', personSchema)
-  
+
   Person.find({}).then(result => {
     console.log('Phonebook:')
     result.forEach(person => {
       console.log(person.name, person.number)
-      mongoose.connection.close()      
+      mongoose.connection.close()
     })
 
   })
@@ -32,7 +34,7 @@ if (process.argv.length < 5) {
   process.exit(1)
 }
 
-password = process.argv[2]
+const password = process.env.MONGODB_URI
 const newName = process.argv[3]
 const newNumber = process.argv[4]
 const url = `mongodb+srv://bcheeth94_db_user:${password}@cluster0.dqimbci.mongodb.net/phoneBook?retryWrites=true&w=majority&appName=Cluster0`
@@ -77,7 +79,7 @@ const person = new Person({
   number: newNumber,
 })
 
-person.save().then(result => {
-    console.log(`added ${newName} number ${newNumber} to phonebook`)
-    mongoose.connection.close()
+person.save().then(() => {
+  console.log(`added ${newName} number ${newNumber} to phonebook`)
+  mongoose.connection.close()
 })

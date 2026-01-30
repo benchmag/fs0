@@ -4,7 +4,7 @@ POST http://localhost:3001/api/notes/ HTTP/1.1
 content-type: application/json
 
 {
-    "content": "many many same true true",
+    "content": "lol",
     "important": true
 }
 ###
@@ -24,13 +24,7 @@ DELETE  http://localhost:3001/api/persons/697aaa94b8058ee0560cf21e
 ###
 GET http://localhost:3001/api/persons
 ###
-POST http://localhost:3001/api/persons/ HTTP/1.1
-content-type: application/json
-
-{
-    "name": "Ben",
-    "number": "1"
-}
+DELETE http://localhost:3001/api/notes/697c1ea3c2021febfed8
 ###
 GET http://localhost:3001/api/persons/697bf295588c10b93949683e
 ###
