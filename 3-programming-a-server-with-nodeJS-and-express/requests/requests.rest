@@ -20,16 +20,18 @@ GET http://localhost:3001/api/notes/10
 ###
 GET http://localhost:3001/info
 ###
-DELETE  http://localhost:3001/api/persons/2
+DELETE  http://localhost:3001/api/persons/697aaa94b8058ee0560cf21e
 ###
 GET http://localhost:3001/api/persons
-###
-GET http://localhost:3001/api/persons/1
 ###
 POST http://localhost:3001/api/persons/ HTTP/1.1
 content-type: application/json
 
 {
-    "name": "Joyhnooo",
-    "number": "12334-4568390"
+    "name": "Jdpd0fsddddkdddkk sd",
+    "number": "1-6s4ss94k4sddd-dl392io3kdl7890"
 }
+###
+GET http://localhost:3001/api/persons/invalidid
+###
+DELETE http://localhost:3001/api/persons/697ab5c18905426a2ef33428
