@@ -12,7 +12,7 @@ app.use(morgan(':remote-addr'))
 
 //built-in middleware to parse JSON bodies and serve static files
 app.use(express.json()) //parse JSON request bodies
-app.use(express.static('dist/notes')) //serve static files from the 'dist' directory
+app.use(express.static('dist/phonebook')) //serve static files from the 'dist' directory
 
 //custom middleware to log request details
 const requestLogger = (request, response, next) => {
@@ -27,7 +27,7 @@ const requestLogger = (request, response, next) => {
 //MONGOOSE SETUP
 require('dotenv').config()
 const Note = require('./models/note')
-// const Person = require('./models/person')
+//const Person = require('./models/person')
 
 
 //HOME ENDPOINT
@@ -86,7 +86,7 @@ app.post('/api/notes', (request, response, next) => {
 })
 
 //PUT
-app.put('/api/notes/:id', (request, response) => {
+app.put('/api/notes/:id', (request, response, next) => {
   const id = request.params.id
   const body = request.body
   const note = {
@@ -94,7 +94,7 @@ app.put('/api/notes/:id', (request, response) => {
     important: body.important,
     id: id
   }
-  Note.findByIdAndUpdate(request.params.id, note, { new: true })
+  Note.findByIdAndUpdate(request.params.id, note, { new: true , runValidators: true})
     .then(updatedNote => {
       response.json(updatedNote)
     })
