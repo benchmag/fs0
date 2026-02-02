@@ -3,12 +3,12 @@ const baseUrl = '/api/notes'
 
 const getAll = () => {
   const request = axios.get(baseUrl)
-  const fakeNote = {
-    id: 9999,
-    content: 'this is a fake note added by the frontend',
-    important: true
-  }
-  return request.then(response => response.data.concat(fakeNote))
+  // const fakeNote = {
+  //   id: 9999,
+  //   content: 'this is a fake note added by the frontend',
+  //   important: true
+  // }
+  return request.then(response => response.data)
 }
 
 const create = newObject => {

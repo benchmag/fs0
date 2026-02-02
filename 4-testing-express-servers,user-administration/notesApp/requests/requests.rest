@@ -1,0 +1,39 @@
+GET http://localhost:3001/api/notes
+###
+POST http://localhost:3001/api/notes/ HTTP/1.1
+content-type: application/json
+
+{
+    "content": "lol",
+    "important": true
+}
+###
+PUT http://localhost:3001/api/notes/3 HTTP/1.1
+content-type: application/json
+
+{
+    "content": "updated note content",
+    "important": false
+}
+###
+GET http://localhost:3001/api/notes/10
+###
+GET http://localhost:3001/info
+###
+DELETE  http://localhost:3001/api/persons/697aaa94b8058ee0560cf21e
+###
+GET http://localhost:3001/api/persons
+###
+DELETE http://localhost:3001/api/notes/697c1ea3c2021febfed8
+###
+GET http://localhost:3001/api/persons/697bf295588c10b93949683e
+###
+DELETE http://localhost:3001/api/persons/697
+###
+PUT http://localhost:3001/api/persons/697bf9cfd5cb1cda5ede69f4 HTTP/1.1
+content-type: application/json
+
+{
+    "name": "Bomm m",
+    "number": "521qq"
+}

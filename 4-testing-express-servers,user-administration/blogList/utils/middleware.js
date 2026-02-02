@@ -1,0 +1,1 @@
+// Any custom middleware functions for the application can be defined here

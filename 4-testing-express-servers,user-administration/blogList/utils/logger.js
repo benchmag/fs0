@@ -1,0 +1,1 @@
+//this module will handle logging functions for applications

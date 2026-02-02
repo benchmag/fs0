@@ -6,7 +6,7 @@ const Names = ({ people, handleDelete }) => {
         <>
             <h2>Contacts: </h2>
             <ul key='people'>
-                {people.map(person => <li key={person.id}>{person.name}: {person.number} <Button onClick={() => handleDelete(person.id)} text="Delete" /></li>
+                {people.map(person => <li key={person.id}>{person.name}: {person.number} <Button onClick={() => handleDelete(person.id)} text="Delete"/></li>
                 )}
             </ul>
         </>
